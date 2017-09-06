@@ -7,8 +7,6 @@
 #include<cstring>
 using namespace std;
 
-
-
 class Graph
 {
 public:
@@ -23,8 +21,6 @@ public:
 	void addEdge(int a, int b);
 
 };
-
-
 Graph::Graph(int num)
 {
 	this->num = num;
@@ -40,9 +36,9 @@ void Graph::dfs(int n)
 
 }
 /*
-������ȱ�����ĳһ�ڵ��ʱ����ȷ���
-Ȼ���������һ��һ�����ڽӵ����������ȣ�������ĵ���visited[]
-��ĳһ���������ȱ�Ǹõ�
+深度优先遍历到某一节点的时候便先访问
+然后对于它的一个一个的邻接点继续深度优先，主义更改的是visited[]
+对某一点深搜则先标记该点
 */
 void Graph::dfs_util(int n, bool *visited)
 {
@@ -58,11 +54,9 @@ void Graph::dfs_util(int n, bool *visited)
 	}
 
 }
-
 /*
-����ջ��������ȱ���ע��ÿ��ȡջ��Ԫ�ص�ʱ���ܷ��ʣ�����Ӧ������ջ��ʱ���Ǽӷ���
+基于栈的深度优先遍历注意每次取栈首元素的时候不能访问，而是应该在入栈的时候标记加访问
 */
-
 void Graph::stack_dfs(int n)
 {
 	bool *visited = new bool[num];
@@ -93,12 +87,10 @@ void Graph::stack_dfs(int n)
 		}
 	}
 }
-
-
 /*
-��ʼ��ջ��ʱ��src�ڵ��ջ��ע��ֻҪ��ջ�˾�Ҫ�����
-����Ԫ�س�ջ��ʱ�����
-�ڽӵ�һ����ȫ����ջ
+初始化栈的时候src节点进栈，注意只要进栈了就要做标记
+队首元素出栈的时候访问
+邻接点一次性全部进栈
 */
 void Graph::bfs(int n)
 {
