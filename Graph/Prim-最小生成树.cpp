@@ -1,80 +1,63 @@
-//#include<iostream>
-//#include<algorithm>
-//#include<string>
-//#include<list>
-//#include<queue>
-//#include<stack>
-//#include<cstring>
-//using namespace std;
-//
-//const int E = 5;//边数
-//const int V = 4;//顶点数
-//typedef struct
-//{
-//	int src;
-//	int dest;
-//	int weight;
-//}Egde;
-//
-//bool cmp(Egde a, Egde b)
-//{
-//	return a.weight < b.weight;
-//}
-//
-//int father[V];
-//int find(int x)//没有优化的并查集算法
-//{
-//	while (father[x] != x)
-//	{
-//		x = father[x];
-//	}
-//	return x;
-//}
-//void unio(int a, int b)
-//{
-//	int x = find(a);
-//	int y = find(b);
-//	father[x] = y;
-//}
-//void kruskal(Egde *edge)
-//{
-//	for (int i = 0; i < V; i++)
-//		father[i] = i;
-//
-//	sort(edge, edge + E, cmp);
-//
-//	for (int i = 0; i < E; i++)
-//	{
-//		if (find(edge[i].src) == find(edge[i].dest))
-//		{
-//			continue;
-//		}
-//		else
-//		{
-//			cout << edge[i].src << "  " << edge[i].dest<<endl;
-//			unio(edge[i].src, edge[i].dest);
-//		}
-//	}
-//}
-//int main()
-//{
-//	Egde *edge = new Egde[E];//5条边
-//	edge[0].src = 0;
-//	edge[0].dest = 1;
-//	edge[0].weight = 10;
-//	edge[1].src = 0;
-//	edge[1].dest = 2;
-//	edge[1].weight = 6;
-//	edge[2].src = 0;
-//	edge[2].dest = 3;
-//	edge[2].weight = 5;
-//	edge[3].src = 1;
-//	edge[3].dest = 3;
-//	edge[3].weight = 15;
-//	edge[4].src = 2;
-//	edge[4].dest = 3;
-//	edge[4].weight = 4;
-//
-//	kruskal(edge);
-//	return 0;
-//}
+#include<iostream>
+using namespace std;
+const int V = 5;
+const int INF = 99999;
+/*
+Prim的这个函数和Dijskra的一样
+*/
+int minDistance(int dist[], bool isInclude[])
+{
+	int min = INF, index;
+	for (int i = 0; i < V; i++)
+	{
+		if (!isInclude[i] && min>dist[i])
+		{
+			min = dist[i];
+			index = i;
+		}
+	}
+	return index;
+}
+void primMST(int graph[][V])
+{
+	int dist[V];
+	bool isInclude[V];
+	int father[V];
+	for (int i = 0; i < V; i++)
+	{
+		dist[i] = INF;
+		isInclude[i] = false;
+	}
+	dist[0] = 0;
+	father[0] = -1;
+	for (int count = 0; count < V - 1; count++)
+	{
+		int u = minDistance(dist, isInclude);
+		isInclude[u] = true;
+		for (int i = 0; i < V; i++)
+		{
+			if (!isInclude[i] && graph[u][i] && dist[i]>graph[u][i])//和Dijiskra也就这里不一样了
+			{
+				dist[i] = graph[u][i];
+				father[i] = u;
+			}
+		}
+	}
+	for (int i = 1; i < V; i++)
+	{
+		cout << father[i] << " "<<i<<"       "<<endl ;
+	}
+}
+int main()
+{
+	int graph[V][V] = 
+	{   
+		{ 0, 2, 0, 6, 0 },
+		{ 2, 0, 3, 8, 5 },
+		{ 0, 3, 0, 0, 7 },
+		{ 6, 8, 0, 0, 9 },
+		{ 0, 5, 7, 9, 0 },
+	};
+	primMST(graph);
+	return 0;
+}
