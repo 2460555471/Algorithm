@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int extgcd(int a, int b, int &x, int &y)//扩展欧几里得算法
+int extgcd(int a, int b, int &x, int &y)//鎵╁睍娆у嚑閲屽緱绠楁硶
 {
 	if (b == 0)
 	{
